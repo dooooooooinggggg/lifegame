@@ -16,7 +16,6 @@
 
 // 自分を5とする。
 // 考慮すべき相対的場所を、数字で表す。
-
 #define RELATIVE_POSITION1 prev_val[i - 1][j - 1]
 #define RELATIVE_POSITION2 prev_val[i - 1][j]
 #define RELATIVE_POSITION3 prev_val[i - 1][j + 1]
