@@ -23,7 +23,6 @@ _start:
     syscall
 
     ; \nの表示
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, return
@@ -32,7 +31,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -41,7 +39,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -49,7 +46,6 @@ _start:
     syscall
 
     ; \nの表示
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, return
@@ -58,7 +54,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -67,7 +62,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -76,7 +70,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -85,7 +78,6 @@ _start:
 
     ; 0の表示
     ; write(1, string, 1)
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -93,7 +85,6 @@ _start:
     syscall
 
     ; \nの表示
-    xor rax, rax
     mov rax, 1
     mov rdi, 1
     mov rsi, return
@@ -105,3 +96,9 @@ _start:
     mov rax, 60
     mov rdi, 0
     syscall
+
+
+; 結果
+; 0
+; 00
+; 0000
