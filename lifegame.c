@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 // ・そのマスに生命体が存在し、周囲8マスに生命体が2体または3体存在するならば生存。
 // ・そのマスに生命体が存在し、周囲8マスに生命体が1体以下または4体以上存在するならば死滅。
 // ・そのマスに生命体が存在せず、周囲8マスに生命体が3体存在するならば誕生。
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define MAX_HEIGHT 60   // i
 #define MAX_WIDTH  240  // j
