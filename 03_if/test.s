@@ -8,9 +8,9 @@ return db 0x0a
 
 
 section .text
-global main
+global _start
 
-main:
+_start:
 
 ; if (a < b) {
 ;     a = b;
