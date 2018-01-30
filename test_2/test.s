@@ -101,7 +101,7 @@ _start:
     syscall
 
 
-    exit(0)
+    ; exit(0)
     mov rax, 60
     mov rdi, 0
     syscall
