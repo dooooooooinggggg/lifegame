@@ -18,7 +18,7 @@ _start:
 
 ; a = 3
 ; b = 2
-; だとすると
+; の場合
 
     mov     rax, 3;a
     mov     rbx, 2;b
