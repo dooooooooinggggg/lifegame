@@ -95,7 +95,6 @@ int main(){
     int next_val[ARRAY_HEIGHT][ARRAY_WIDTH];
 
     define_init_val(prev_val);
-    print_func(prev_val);
 
     for( int i = 0; i <= LIFE_SPAN; i++ ){
         sleep(1);
