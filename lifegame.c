@@ -6,8 +6,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define MAX_HEIGHT 60   // i
+#define MAX_HEIGHT 50   // i
 #define MAX_WIDTH  240  // j
+
+#define ARRAY_HEIGHT MAX_HEIGHT + 2   // i
+#define ARRAY_WIDTH  MAX_WIDTH + 2  // j
 #define LIFE_SPAN  1000 // 寿命
 
 // 123
@@ -26,9 +29,12 @@
 #define RELATIVE_POSITION8 prev_val[i + 1][j]
 #define RELATIVE_POSITION9 prev_val[i + 1][j + 1]
 
-void print_func(int val[MAX_HEIGHT][MAX_WIDTH]){
-    for(int i = 0; i < MAX_HEIGHT; i++){
-        for(int j = 0; j < MAX_WIDTH; j++){
+void print_func(int val[ARRAY_HEIGHT][ARRAY_WIDTH]){
+    for(int i = 0; i < ARRAY_HEIGHT; i++){
+        for(int j = 0; j < ARRAY_WIDTH; j++){
+
+            if( i == 0 || i == ARRAY_HEIGHT - 1 || j == 0 || j == ARRAY_WIDTH - 1 ) continue;
+
             if( val[i][j] == 1 ) printf("0");
             else if( val[i][j] == 0 ) printf("-");
             else printf("e");
@@ -38,71 +44,44 @@ void print_func(int val[MAX_HEIGHT][MAX_WIDTH]){
     printf("\n");
 }
 
-void define_init_val(int init_val[MAX_HEIGHT][MAX_WIDTH]){
+void define_init_val(int prev_val[ARRAY_HEIGHT][ARRAY_WIDTH]){
     int flag;
 
-    for(int i = 0; i < MAX_HEIGHT; i++){
-        for(int j = 0; j < MAX_WIDTH; j++){
+    for(int i = 0; i < ARRAY_HEIGHT; i++){
+        for(int j = 0; j < ARRAY_WIDTH; j++){
             flag = (int)( rand() * (2.0) / (1.0 + RAND_MAX) );
-            init_val[i][j] = flag;
+            prev_val[i][j] = flag;
         }
     }
 }
 
-// 被ってる
-void cp_first(int init_val[MAX_HEIGHT][MAX_WIDTH], int prev_val[MAX_HEIGHT][MAX_WIDTH]){
-    for(int i = 0; i < MAX_HEIGHT; i++){
-        for(int j = 0; j < MAX_WIDTH; j++){
-            prev_val[i][j] = init_val[i][j];
-        }
-    }
-}
-
-void cp_prev_to_next(int prev_val[MAX_HEIGHT][MAX_WIDTH], int next_val[MAX_HEIGHT][MAX_WIDTH]){
-    for(int i = 0; i < MAX_HEIGHT; i++){
-        for(int j = 0; j < MAX_WIDTH; j++){
+void cp_prev_to_next(int prev_val[ARRAY_HEIGHT][ARRAY_WIDTH], int next_val[ARRAY_HEIGHT][ARRAY_WIDTH]){
+    for(int i = 0; i < ARRAY_HEIGHT; i++){
+        for(int j = 0; j < ARRAY_WIDTH; j++){
             prev_val[i][j] = next_val[i][j];
         }
     }
 }
 
-void generational_change(int prev_val[MAX_HEIGHT][MAX_WIDTH], int next_val[MAX_HEIGHT][MAX_WIDTH]){
+void generational_change(int prev_val[ARRAY_HEIGHT][ARRAY_WIDTH], int next_val[ARRAY_HEIGHT][ARRAY_WIDTH]){
 
     int counter = 0;
 
-    for(int i = 0; i < MAX_HEIGHT; i++){
-        for(int j = 0; j < MAX_WIDTH; j++){
-            if( i == 0 ){
-                // 689
-                if( j == 0 ) counter = RELATIVE_POSITION6 + RELATIVE_POSITION8 + RELATIVE_POSITION9;
-                // 478
-                else if( j == MAX_WIDTH - 1 ) counter = RELATIVE_POSITION4 + RELATIVE_POSITION7 + RELATIVE_POSITION8;
-                // 46789
-                else counter = RELATIVE_POSITION4 + RELATIVE_POSITION6 + RELATIVE_POSITION7 + RELATIVE_POSITION8 + RELATIVE_POSITION9;
-            }else if(i == MAX_HEIGHT - 1){
-                // 236
-                if( j == 0 ) counter = RELATIVE_POSITION2 + RELATIVE_POSITION3 + RELATIVE_POSITION6;
-                // 124
-                else if( j == MAX_WIDTH - 1 ) counter = RELATIVE_POSITION1 + RELATIVE_POSITION2 + RELATIVE_POSITION4;
-                // 12346
-                else counter = RELATIVE_POSITION1 + RELATIVE_POSITION2 + RELATIVE_POSITION3 + RELATIVE_POSITION4 + RELATIVE_POSITION6;
+    for(int i = 0; i < ARRAY_HEIGHT; i++){
+        for(int j = 0; j < ARRAY_WIDTH; j++){
+            counter = RELATIVE_POSITION1 + RELATIVE_POSITION2 + RELATIVE_POSITION3 + RELATIVE_POSITION4 + RELATIVE_POSITION6 + RELATIVE_POSITION7 + RELATIVE_POSITION8 + RELATIVE_POSITION9;
+            if( i == 0 || i == ARRAY_HEIGHT - 1 || j == 0 || j == ARRAY_WIDTH - 1 ){
+                next_val[i][j] = 0;
             }else{
-                // 23689
-                if( j == 0 ) counter = RELATIVE_POSITION2 + RELATIVE_POSITION3 + RELATIVE_POSITION6 + RELATIVE_POSITION8 + RELATIVE_POSITION9;
-                // 12478
-                else if( j == MAX_WIDTH - 1 ) counter = RELATIVE_POSITION1 + RELATIVE_POSITION2 + RELATIVE_POSITION4 + RELATIVE_POSITION7 + RELATIVE_POSITION8;
-                // 12346789
-                else counter = RELATIVE_POSITION1 + RELATIVE_POSITION2 + RELATIVE_POSITION3 + RELATIVE_POSITION4 + RELATIVE_POSITION6 + RELATIVE_POSITION7 + RELATIVE_POSITION8 + RELATIVE_POSITION9;
-            }
-
-            if( prev_val[i][j] == 1 ){
-                if ( counter == 2 || counter == 3 ) next_val[i][j] = 1;
-                else next_val[i][j] = 0;
-            }else if(prev_val[i][j] == 0){
-                if ( counter == 3 ) next_val[i][j] = 1;
-                else next_val[i][j] = 0;
-            }else{
-                printf("\n------------e------------\nin prev_val[%d][%d] :%d\n", i, j, prev_val[i][j]);
+                if( prev_val[i][j] == 1 ){
+                    if ( counter == 2 || counter == 3 ) next_val[i][j] = 1;
+                    else next_val[i][j] = 0;
+                }else if(prev_val[i][j] == 0){
+                    if ( counter == 3 ) next_val[i][j] = 1;
+                    else next_val[i][j] = 0;
+                }else{
+                    printf("\n------------e------------\nin prev_val[%d][%d] :%d\n", i, j, prev_val[i][j]);
+                }
             }
             counter = 0;
         }
@@ -112,18 +91,15 @@ void generational_change(int prev_val[MAX_HEIGHT][MAX_WIDTH], int next_val[MAX_H
 }
 
 int main(){
-    // 初期値
-    int init_val[MAX_HEIGHT][MAX_WIDTH];
-    int prev_val[MAX_HEIGHT][MAX_WIDTH];
-    int next_val[MAX_HEIGHT][MAX_WIDTH];
+    int prev_val[ARRAY_HEIGHT][ARRAY_WIDTH];
+    int next_val[ARRAY_HEIGHT][ARRAY_WIDTH];
 
-    define_init_val(init_val);
-    cp_first(init_val, prev_val);
+    define_init_val(prev_val);
     print_func(prev_val);
 
-    for( int i = 0; i < LIFE_SPAN; i++ ){
+    for( int i = 0; i <= LIFE_SPAN; i++ ){
         sleep(1);
-        printf("第%d世代\n", i + 1);
+        printf("第%d世代\n", i );
         generational_change(prev_val, next_val);
         print_func(next_val);
         cp_prev_to_next(prev_val, next_val);
