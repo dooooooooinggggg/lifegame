@@ -52,7 +52,6 @@ forbun:
     jge endfor
 
 
-
     ; 0の表示
     mov rax, 1
     mov rdi, 1
