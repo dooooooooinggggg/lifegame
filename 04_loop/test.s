@@ -40,15 +40,15 @@ _start:
     mov rdx, 1
     syscall
 
-    ; rcx = 0
-    ; xor rcx, rcx
-    mov rcx, 0
+    ; r8 = 0
+    xor r8, r8
+    ; mov r8, 0
 
 forbun:
 
     ; if( rcx < 64 ) そのまま
     ; else           endfor
-    cmp rcx, 64
+    cmp r8, 64
     jge endfor
 
 
@@ -74,7 +74,7 @@ forbun:
     mov rdx, 1
     syscall
 
-    inc rcx
+    inc r8
     jmp forbun
 
 endfor:
