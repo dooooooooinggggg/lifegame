@@ -45,9 +45,9 @@ for_j:
 
     mov rax, rbx
     div 10
-    cmp 0, ah
 
     inc rbx
+    cmp 0, ah
     je  for_i
     jmp for_j
 
