@@ -18,6 +18,15 @@ _start:
 ;     printf("0\n")
 ; }
 
+
+    ; -の表示
+    ; write(1, string, 1)
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, off
+    mov rdx, 1
+    syscall
+
     ; -の表示
     ; write(1, string, 1)
     mov rax, 1
@@ -44,38 +53,10 @@ for:
 
 
 
-    ; \nの表示
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, return
-    mov rdx, 1
-    syscall
-
     ; 0の表示
     mov rax, 1
     mov rdi, 1
     mov rsi, on
-    mov rdx, 1
-    syscall
-
-    ; \nの表示
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, return
-    mov rdx, 1
-    syscall
-
-    ; rcxの表示
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, rcx
-    mov rdx, 1
-    syscall
-
-    ; \nの表示
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, return
     mov rdx, 1
     syscall
 
