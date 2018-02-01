@@ -59,11 +59,11 @@ init_val:
     div r8
 
     ; if( rbx % 50 == 0 )
-    cmp rax, 0
+    cmp rdx, 0
     je  zero_func
 
     ; if( rbx % 50 == 49 )
-    cmp rax, 49
+    cmp rdx, 49
     je  zero_func
 
     mov r9, 1
