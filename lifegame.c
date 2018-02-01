@@ -49,6 +49,12 @@ void define_init_val(int prev_val[ARRAY_HEIGHT][ARRAY_WIDTH]){
 
     for(int i = 0; i < ARRAY_HEIGHT; i++){
         for(int j = 0; j < ARRAY_WIDTH; j++){
+
+            if( i == 0 || i == ARRAY_HEIGHT - 1 || j == 0 || j == ARRAY_WIDTH - 1 ){
+                next_val[i][j] = 0;
+                continue;
+            }
+
             flag = (int)( rand() * (2.0) / (1.0 + RAND_MAX) );
             prev_val[i][j] = flag;
         }
