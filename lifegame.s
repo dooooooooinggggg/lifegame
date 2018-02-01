@@ -90,8 +90,10 @@ print_each:
     je  after_each_print
 
     xor r15, r15
-    mov r14, prev_val
+    lea r14, prev_val
+    nop
     mov r15, byte ptr [r14 + rbx]
+    nop
     cmp r15, 0
     je print_off
     cmp r15, 1
