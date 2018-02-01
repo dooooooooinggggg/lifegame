@@ -58,7 +58,7 @@ for:
     inc rcx
     jmp for
 
-entfor:
+endfor:
 
     jmp exit
 
