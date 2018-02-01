@@ -67,11 +67,11 @@ print_each:
 
     ; if( rbx <= 49 )
     cmp rbx, 49
-    jle zero_func
+    jle after_each_print
 
     ; if( rbx >= 2450 )
     cmp rbx, 2450
-    jge zero_func
+    jge after_each_print
 
     mov rax, rbx
     mov r8, 50
@@ -79,11 +79,11 @@ print_each:
 
     ; if( rbx % 50 == 0 )
     cmp rdx, 0
-    je  zero_func
+    je  after_each_print
 
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
-    je  zero_func
+    je  after_each_print
 
     xor r9, r9
     mov r9, [prev_val + rbx]
