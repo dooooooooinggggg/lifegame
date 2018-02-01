@@ -1,11 +1,26 @@
 
-section .data
-on     db "0" ;
-
 ; aは1要素がbyte長で100要素の配列先頭アドレス（）(1byte)
 ; bは1要素がdouble word長で100要素
-; resbでいい。01なので。
+
+; resbで、いい。01なので。
+
+;     segment .bss
+; a   resb    100
+; b   resd    100
+;     align   8
+; c   resq    100
+;     segment .text
+;     global  main        ; let the linker know about main
+; main:
+;     push    rbp
+;     mov     rbp, rsp
+;     sub     rsp, 16
+;     leave
+;     ret
+
+
 section .bss
+
 ; 10*10の配列だとする。
 aaaaa    resb 100
 
@@ -41,20 +56,22 @@ for_j:
     mov r8,  10
     div r8
 
+; inc
+; CFの状態を変えないで格納先オペランドから1を足します
+; 格納先オペランドには、レジスタまたはメモリアドレスを使用できます
+; この命令では、CFの状態を変えることなくループカウンタを更新することができます
+; (CFを更新するにはADD命令で値1のオペランドを指定します)
+; LOCKプリフィクスとINC命令を使用することで、アトミックな(割り込みをはさまないで命令を完了できる)命令として
+; 使用できます
     inc rbx
 
     cmp rax, 0
     je  for_i
 
-    mov rax, 1
-    mov rdi, 1
-    mov rsi, on
-    mov rdx, 1
-    syscall
-
     jmp for_j
 
 end_for:
+
     ; exit(0)
     mov rax, 60
     mov rdi, 0
