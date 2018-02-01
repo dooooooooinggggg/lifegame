@@ -49,17 +49,6 @@ end_while:
         leave
         ret
 
-
-
-section .data
-; on     db "0" ;
-; off    db 0x2d; <- "-"
-; err    db "e"
-; return db 0x0a
-
-section .text
-global _start
-
 ; sum = 0;
 ; i = 0;
 ; while ( i < 64 ) {
@@ -68,4 +57,3 @@ global _start
 ;     i++;
 ; }
 
-_start:
