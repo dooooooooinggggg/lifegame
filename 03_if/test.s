@@ -2,7 +2,7 @@
 section .data
 on     db "0" ;
 off    db 0x2d; <- "-"
-; err    db "e"
+err    db "e"
 return db 0x0a
 
 
@@ -40,11 +40,7 @@ _start:
     mov rdx, 1
     syscall
 
-
-    ; exit(0)
-    mov rax, 60
-    mov rdi, 0
-    syscall
+    jmp exit
 
 false:
 
@@ -62,8 +58,51 @@ false:
     mov rdx, 1
     syscall
 
+    jmp exit
+
+exit:
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, err
+    mov rdx, 1
+    syscall
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, err
+    mov rdx, 1
+    syscall
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
     ; exit(0)
     mov rax, 60
     mov rdi, 0
     syscall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
