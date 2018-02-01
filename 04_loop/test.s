@@ -7,7 +7,6 @@ err    db "e"
 return db 0x0a
 
 
-
 section .text
 global _start
 
@@ -41,14 +40,15 @@ _start:
     mov rdx, 1
     syscall
 
-    ; ecx = 0
-    xor rcx, rcx
+    ; rcx = 0
+    ; xor rcx, rcx
+    mov rcx, 0
 
 forbun:
 
     ; if( rcx < 64 ) そのまま
     ; else           endfor
-    cmp rcx, 63
+    cmp rcx, 64
     jnl endfor
 
 
