@@ -44,7 +44,7 @@ _start:
     ; ecx = 0
     xor rcx, rcx
 
-for:
+forbun:
 
     ; if( rcx < 64 ) そのまま
     ; else           endfor
@@ -74,10 +74,8 @@ for:
     mov rdx, 1
     syscall
 
-
-
     inc rcx
-    jmp for
+    jmp forbun
 
 endfor:
 
