@@ -38,7 +38,7 @@ _start:
 for:
 
     cmp rcx, 63
-    jge endfor
+    jb endfor
 
     ; 0の表示
     ; write(1, string, 1)
