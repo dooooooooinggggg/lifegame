@@ -89,6 +89,9 @@ print_each:
     cmp r9, 1
     je print_on
 
+    inc rbx
+    jmp print_each
+
 
 return_from_print:
     jmp after_first_print
