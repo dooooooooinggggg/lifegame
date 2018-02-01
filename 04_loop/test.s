@@ -33,27 +33,67 @@ _start:
     syscall
 
     ; ecx = 0
-    xor     rcx, rcx
+    xor rcx, rcx
 
 for:
 
+    ; if( rcx < 64 ) そのまま
+    ; else           endfor
     cmp rcx, 63
     jge endfor
 
-    ; 0の表示
-    ; write(1, string, 1)
-    mov rax, 1
-    mov rdi, 1
-    ; mov rsi, on
-    mov rsi, on
-    mov rdx, 1
-    syscall
+
+
     ; \nの表示
     mov rax, 1
     mov rdi, 1
     mov rsi, return
     mov rdx, 1
     syscall
+
+    ; 0の表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, on
+    mov rdx, 1
+    syscall
+
+    ; \nの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    ; rcxの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, rcx
+    mov rdx, 1
+    syscall
+
+    ; \nの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    ; 0の表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, on
+    mov rdx, 1
+    syscall
+
+    ; \nの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+
 
     inc rcx
     jmp for
