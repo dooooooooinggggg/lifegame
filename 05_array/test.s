@@ -7,7 +7,7 @@ on     db "0" ;
 ; resbでいい。01なので。
 section .bss
 ; 10*10の配列だとする。
-aaaaa    resb 100
+aaaaa    resb 1000
 
 section .text
     global _start
