@@ -80,7 +80,7 @@ print_each:
 
     mov r9, [prev_val + rbx]
     cmp r9, 0
-    je print_zero
+    je print_off
     cmp r9, 1
     je print_on
 
