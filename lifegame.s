@@ -89,7 +89,7 @@ print_each:
     je  after_each_print
 
     xor r15, r15
-    mov r15, [prev_val + rbx]
+    mov r15, byte ptr [prev_val + rbx]
     cmp r15, 0
     je print_off
     cmp r15, 1
