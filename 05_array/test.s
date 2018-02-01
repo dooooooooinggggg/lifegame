@@ -39,18 +39,49 @@ _start:
     xor rbx, rbx
 
 for_i:
-
+    nop
 for_j:
+    ; この時raxには、カウンタの値が入っている。
+
+    ; if(rax >= 100){抜ける}
+    ; else 継続
+    cmp rbx, 100
+    ; 100に達していたら抜け、そうでなくても、10の倍数だったら、jから抜ける。
+    jge end_for
+
+    aaaaa[i][j] = i
     mov [aaaaa + rbx], rbx
 
     mov rax, rbx
     mov r8,  10
     div r8
 
+; inc
+; CFの状態を変えないで格納先オペランドから1を足します
+; 格納先オペランドには、レジスタまたはメモリアドレスを使用できます
+; この命令では、CFの状態を変えることなくループカウンタを更新することができます
+; (CFを更新するにはADD命令で値1のオペランドを指定します)
+; LOCKプリフィクスとINC命令を使用することで、アトミックな(割り込みをはさまないで命令を完了できる)命令として
+; 使用できます
     inc rbx
-    cmp 0, rax
+
+    cmp rax, 0
     je  for_i
+
     jmp for_j
+
+end_for:
+
+    ; exit(0)
+    mov rax, 60
+    mov rdi, 0
+    syscall
+
+
+
+
+
+
 
 
 
