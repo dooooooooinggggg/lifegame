@@ -33,6 +33,11 @@ section .bss
 section .text
     global _start
 
+
+
+
+
+
 print_off:
     mov rax, 1
     mov rdi, 1
@@ -56,7 +61,7 @@ print_func:
     xor rbx, rbx
 print_each:
     cmp rbx, 2500
-    jg return_from_print
+    jge return_from_print
 
     ; if( rbx <= 49 )
     cmp rbx, 49
@@ -88,6 +93,13 @@ print_each:
 return_from_print:
     jmp after_first_print
 
+
+
+
+
+
+
+
 zero_func:
     mov r9, 0
     mov [prev_val + rbx], r9
@@ -97,7 +109,7 @@ _start:
     xor rbx, rbx
 init_val:
     cmp rbx, 2500
-    jg after_init_val
+    jge after_init_val
 
     ; rbxが、49以下の時
     ; rbxが、2450以上の時
