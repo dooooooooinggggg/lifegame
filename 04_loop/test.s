@@ -1,71 +1,111 @@
 
-      segment .data
-data    dq      0xfedcba9876543210
-sum     dq      0
-
-        segment .text
-        global  main
-main:
-
-        ; rbpの値をスタックに入れている。
-        push    rbp
-
-        ; rbp = rsp
-        mov     rbp, rsp
-
-        ; rsp - 16
-        sub     rsp, 16
-
-;   Register usage
-;
-;   rax : bits being examined
-;   rbx : carry bit after bt, setc
-;   rcx : loop counter, 0-63
-;   rdx : sum of 1 bits
-;
-
-        ; rax = data
-        mov     rax, [data]
-        ; ebx = 0
-        xor     ebx, ebx
-        ; ecx = 0
-        xor     ecx, ecx
-        ; edx = 0
-        xor     edx, edx
-
-while:
-        cmp     rcx, 64
-        jnl     end_while; ここが分岐を抜ける条件。つまり、for文の0行目s
-        bt      rax, 0; bt = ビット・テスト
-        setc    bl;条件に適合する場合バイトを設定する blとは？
-        add     edx, ebx; edx + ebx
-        shr     rax, 1
-        inc     rcx; i++
-        jmp     while
-
-end_while:
-        mov     [sum], rdx
-        xor     eax, eax
-        leave
-        ret
-
-
 
 section .data
-; on     db "0" ;
-; off    db 0x2d; <- "-"
-; err    db "e"
-; return db 0x0a
+on     db "0" ;
+off    db 0x2d; <- "-"
+err    db "e"
+return db 0x0a
+
+
 
 section .text
 global _start
 
-; sum = 0;
-; i = 0;
-; while ( i < 64 ) {
-;     sum += data & 1;
-;     data = data >> 1;
-;     i++;
+_start:
+
+; printf("-/n")
+; for( i = 0; i < 63; i++ ){
+;     printf("0\n")
 ; }
 
-_start:
+    ; -の表示
+    ; write(1, string, 1)
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, off
+    mov rdx, 1
+    syscall
+    ; \nの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    ; ecx = 0
+    xor     rcx, rcx
+
+for:
+
+    cmp rcx, 63
+    jge endfor
+
+    ; 0の表示
+    ; write(1, string, 1)
+    mov rax, 1
+    mov rdi, 1
+    ; mov rsi, on
+    mov rsi, rcx
+    mov rdx, 1
+    syscall
+    ; \nの表示
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    inc rcx
+    jmp for
+
+entfor:
+
+    jmp exit
+
+exit:
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, err
+    mov rdx, 1
+    syscall
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, err
+    mov rdx, 1
+    syscall
+
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    ; exit(0)
+    mov rax, 60
+    mov rdi, 0
+    syscall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
