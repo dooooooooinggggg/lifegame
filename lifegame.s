@@ -9,19 +9,31 @@
 
 ; rbxを、カウンターとする。
 
+
+; rbx カウンター 邪魔しちゃダメ。
+; r8  除数を入れておくためのもの。一時的
+; r9  初期値であるflagを入れておくもの。一時的
+
+
 section .data
-on     db "0"
+    on     db "0"
+    off    db 0x2d; <- "-"
+    err    db "e"
+    return db 0x0a
+
 
 section .bss
-; 10*10の配列だとする。
-prev_val resb 2500
-next_val resb 2500
+    ; 10*10の配列だとする。
+    prev_val resb 2500
+    next_val resb 2500
+
 
 section .text
-global _start
+    global _start
 
 zero_func:
-    mov [prev_val + rbx], 0
+    mov r9, 0
+    mov [prev_val + rbx], r9
     jmp end_init_this_num
 
 _start:
@@ -30,13 +42,9 @@ init_val:
     cmp rbx, 2500
     jg after_init_val
 
-    ; mov     r8, ;i
-    ; mov     r9, ;j
-    ; cmp     rax, rbx
-    ; jge     false
-
     ; rbxが、49以下の時
-    ; rbxが、2450以上の時。
+    ; rbxが、2450以上の時
+    ; 0の壁を入れてみる
 
     ; if( rbx <= 49 )
     cmp rbx, 49
@@ -58,7 +66,8 @@ init_val:
     cmp rax, 49
     je  zero_func
 
-    mov [prev_val + rbx], 1
+    mov r9, 1
+    mov [prev_val + rbx], r9
     ; jmp end_init_this_num
 
 end_init_this_num:
