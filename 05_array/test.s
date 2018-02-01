@@ -25,7 +25,7 @@ section .bss
 aaaaa    resb 100
 
 section .text
-    global _Start
+    global _start
 
 _start:
 ; for( i = 0; i < 10; i++ ){
