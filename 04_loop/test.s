@@ -38,14 +38,14 @@ _start:
 for:
 
     cmp rcx, 63
-    jb endfor
+    jge endfor
 
     ; 0の表示
     ; write(1, string, 1)
     mov rax, 1
     mov rdi, 1
     ; mov rsi, on
-    mov rsi, rcx
+    mov rsi, on
     mov rdx, 1
     syscall
     ; \nの表示
