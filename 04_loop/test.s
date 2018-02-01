@@ -49,7 +49,7 @@ forbun:
     ; if( rcx < 64 ) そのまま
     ; else           endfor
     cmp rcx, 63
-    jnl endfor
+    jge endfor
 
 
 
