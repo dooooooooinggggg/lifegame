@@ -16,11 +16,11 @@ _start:
 ;     a = b;
 ; }
 
-; a = 3
+; a = 1
 ; b = 2
 ; の場合
 
-    mov     rax, 3;a
+    mov     rax, 1;a
     mov     rbx, 2;b
     cmp     rax, rbx
     jge     false
