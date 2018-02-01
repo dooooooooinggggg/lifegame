@@ -15,6 +15,7 @@
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
+; r15 print系において、配列の値を入れておくもの
 
 
 section .data
@@ -39,6 +40,7 @@ section .text
 
 
 print_off:
+    ; write
     mov rax, 1
     mov rdi, 1
     mov rsi, off
@@ -49,6 +51,7 @@ print_off:
     ; ret
 
 print_on:
+    ; write
     mov rax, 1
     mov rdi, 1
     mov rsi, on
@@ -85,13 +88,14 @@ print_each:
     cmp rdx, 49
     je  after_each_print
 
-    xor r9, r9
-    mov r9, [prev_val + rbx]
-    cmp r9, 0
+    xor r15, r15
+    mov r15, [prev_val + rbx]
+    cmp r15, 0
     je print_off
-    cmp r9, 1
+    cmp r15, 1
     je print_on
 
+; print系のcontinueと、次のループへはここ。
 after_each_print:
     inc rbx
     jmp print_each
