@@ -45,7 +45,8 @@ print_off:
     mov rdx, 1
     syscall
 
-    ret
+    jmp after_each_print
+    ; ret
 
 print_on:
     mov rax, 1
@@ -54,7 +55,8 @@ print_on:
     mov rdx, 1
     syscall
 
-    ret
+    jmp after_each_print
+    ; ret
 
 print_func:
     ; 一回prev_valをprintする感じで。
@@ -83,12 +85,14 @@ print_each:
     cmp rdx, 49
     je  zero_func
 
+    xor r9, r9
     mov r9, [prev_val + rbx]
     cmp r9, 0
     je print_off
     cmp r9, 1
     je print_on
 
+after_each_print:
     inc rbx
     jmp print_each
 
