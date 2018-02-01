@@ -9,8 +9,10 @@
 
 ; rbxを、カウンターとする。
 
-
+; システムコール番号はrax、引数はrdi, rsi, rdx, r10, r8, r9の順で与える
+; rax以外にrcx, r11も書き換えられる可能性がある
 ; rbx カウンター 邪魔しちゃダメ。
+; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
 
@@ -31,20 +33,30 @@ section .bss
 section .text
     global _start
 
-zero_func:
-    mov r9, 0
-    mov [prev_val + rbx], r9
-    jmp end_init_this_num
+print_off:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, off
+    mov rdx, 1
+    syscall
 
-_start:
+    ret
+
+print_on:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, on
+    mov rdx, 1
+    syscall
+
+    ret
+
+print_func:
+    ; 一回prev_valをprintする感じで。
     xor rbx, rbx
-init_val:
+print_each:
     cmp rbx, 2500
-    jg after_init_val
-
-    ; rbxが、49以下の時
-    ; rbxが、2450以上の時
-    ; 0の壁を入れてみる
+    jg return_from_print
 
     ; if( rbx <= 49 )
     cmp rbx, 49
@@ -66,20 +78,66 @@ init_val:
     cmp rdx, 49
     je  zero_func
 
+    mov r9, [prev_val + rbx]
+    cmp r9, 0
+    je print_zero
+    cmp r9, 1
+    je print_on
+
+
+return_from_print:
+    jmp after_first_print
+
+zero_func:
+    mov r9, 0
+    mov [prev_val + rbx], r9
+    jmp end_init_this_num
+
+_start:
+    xor rbx, rbx
+init_val:
+    cmp rbx, 2500
+    jg after_init_val
+
+    ; rbxが、49以下の時
+    ; rbxが、2450以上の時
+    ; 0の壁を入れる
+
+    ; if( rbx <= 49 )
+    cmp rbx, 49
+    jle zero_func
+
+    ; if( rbx >= 2450 )
+    cmp rbx, 2450
+    jge zero_func
+
+    mov rax, rbx
+    mov r8, 50
+    div r8
+
+    ; if( rbx % 50 == 0 )
+    cmp rdx, 0
+    je  zero_func
+
+    ; if( rbx % 50 == 49 )
+    cmp rdx, 49
+    je  zero_func
+
+    ; ここを本当はランダムにしなければならない
     mov r9, 1
     mov [prev_val + rbx], r9
     ; jmp end_init_this_num
 
 end_init_this_num:
-
     inc rbx
     jmp init_val
 
-
 after_init_val:
     nop
+    jmp print_func
 
-
+after_first_print:
+    nop
 
 
 
