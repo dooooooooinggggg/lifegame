@@ -49,7 +49,7 @@ for_j:
     ; 100に達していたら抜け、そうでなくても、10の倍数だったら、jから抜ける。
     jge end_for
 
-    aaaaa[i][j] = i
+    ; aaaaa[i][j] = i
     mov [aaaaa + rbx], rbx
 
     mov rax, rbx
