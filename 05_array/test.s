@@ -44,10 +44,11 @@ for_j:
     mov [aaaaa + rbx], rbx
 
     mov rax, rbx
-    div 10
+    mov r8,  10
+    div r8
 
     inc rbx
-    cmp 0, ah
+    cmp 0, rax
     je  for_i
     jmp for_j
 
