@@ -58,9 +58,9 @@ gen_rand:
     ; return y = y ^ (y << 5);
 
     ; r9に入れさえすればいい。
-    mov r11, 88172645463325252 ; seed
     mov rax, r11
-    mul r11 ; r11 ^ 2の結果をrax:rdxに代入。raxの方がランダムになりそうなのでこっち使う。
+    mul r11 ; r11 ^ 2の結果をrax:rdxに代入。なんとなくraxを使う。
+    sar rax, 1
 
     nop
 
@@ -192,6 +192,9 @@ _start:
     xor r12, r12; 世代
     xor rbx, rbx
 init_val:
+    ; randに使うレジスタを初期化
+    xor r11, r11
+    mov r11, 2463534242 ; seed
     cmp rbx, 2500
     jge after_init_val
 
@@ -224,10 +227,9 @@ init_val:
         je  zero_func
 
         ; ここを本当はランダムにしなければならない
-        ; randに使うレジスタを初期化
-        xor r11, r11
         jmp gen_rand
 done_gen_rand:
+
         mov [prev_val + rbx], r9
 
     jmp end_init_this_num
