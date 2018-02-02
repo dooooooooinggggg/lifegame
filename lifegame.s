@@ -398,12 +398,12 @@ jmp dicide_die
 
 dicide_live:
     mov r9, 1
-    mov [prev_val + rbx], r9
+    mov [next_val + rbx], r9
 jmp done_this_next_num
 
 dicide_die:
     mov r9, 0
-    mov [prev_val + rbx], r9
+    mov [next_val + rbx], r9
 jmp done_this_next_num
 
 ; 次の世代の、壁を作る仕事。
