@@ -15,15 +15,17 @@
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
-; r10
-; r11 sleep用。
+; r10 乱数の、一次的な変数を入れておく。
+; r11 sleep用。あと、乱数の生成用
 ; r12 世代の情報を入れたい。
 ; r13 new_gen付近にてprev_valの、そのセルの情報を入れる。コピー段階では、next世代の情報を入れる。
 ; r14 周りの生きているセルの個数を入れる。
 ; r15 print系において、配列の値を入れておくもの。新しい世代の生成の際には、周りのセルの01を一時的に入れておくもの。
 
-; divは、商がrax、余りがrdxに入る。
+; mulは、rax*op = rax:rdxになる
 
+; divは、商がrax、余りがrdxに入る。
+; スタックレジスタを使えなかった....
 
 section .data
     on     db "0"
@@ -41,10 +43,40 @@ section .bss
 section .text
     global _start
 
+next_val_is_on:
+    mov r9, 1
+    jmp return_to_done_gen_rand
+
+next_val_is_off:
+    mov r9, 0
+    jmp return_to_done_gen_rand
 
 gen_rand:
+
+    ; static uint32_t y = 2463534242;
+    ; y = y ^ (y << 13); y = y ^ (y >> 17);
+    ; return y = y ^ (y << 5);
+
     ; r9に入れさえすればいい。
-    mov r9, 1
+    mov r11, 342743218 ; seed
+    mov rax, r11
+    mul r11
+
+    ; raxの値をr11に入れたのち、
+    ; これが偶数か奇数かを判定
+    mov r11, rax
+    ; mov rax, r11
+
+    mov r8, 2
+    xor rdx, rdx
+    div r8
+    cmp rdx, 1
+    je next_val_is_on
+
+    cmp rdx, 0
+    je next_val_is_off
+
+return_to_done_gen_rand:
     jmp done_gen_rand
 
 
@@ -152,15 +184,6 @@ zero_func:
     mov [prev_val + rbx], r9
     jmp end_init_this_num
 
-
-
-
-
-
-
-
-
-
 _start:
     xor r12, r12; 世代
     xor rbx, rbx
@@ -197,7 +220,8 @@ init_val:
         je  zero_func
 
         ; ここを本当はランダムにしなければならない
-        ; nop
+        ; randに使うレジスタを初期化
+        xor r11, r11
         jmp gen_rand
 done_gen_rand:
         mov [prev_val + rbx], r9
@@ -337,22 +361,6 @@ exit:
     syscall
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 consider_next_gen_when_alive:
     cmp r14, 2
     je dicide_live
@@ -383,15 +391,4 @@ next_zero_func:
     mov r9, 0
     mov [next_val + rbx], r9
     jmp done_this_next_num
-
-
-
-
-
-
-
-
-
-
-
 
