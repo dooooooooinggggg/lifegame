@@ -301,6 +301,16 @@ done_this_loop_lets_go_next_loop:
     cmp r12, 1000
     jge exit
 
+    ; sleep
+    mov rax, 35
+    mov rdi, 1
+    mov rsi, 0
+    mov rdx, 1
+    syscall
+
+    jmp after_each_print
+    ; ret
+
     jmp print_func
 
 exit:
