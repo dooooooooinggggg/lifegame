@@ -192,10 +192,10 @@ zero_func:
 _start:
     xor r12, r12; 世代
     xor rbx, rbx
-init_val:
-    ; randに使うレジスタを初期化
     xor r11, r11
     mov r11, 2463534242 ; seed
+init_val:
+    ; randに使うレジスタを初期化
     cmp rbx, 2500
     jge after_init_val
 
