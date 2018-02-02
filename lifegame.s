@@ -321,9 +321,11 @@ done_this_loop_lets_go_next_loop:
 sleep:
     xor r11, r11
     cmp r11, 1000000000
+    jge next_loop
     inc r11
-    jle sleep
+    jmp sleep
 
+next_loop:
     jmp print_func
 
 exit:
