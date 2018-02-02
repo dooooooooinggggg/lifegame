@@ -118,8 +118,8 @@ after_each_print:
     mov r8, 50
     div r8
 
-    ; if( rbx % 50 == 48 )
-    cmp rdx, 48
+    ; if( rbx % 50 == 49 )
+    cmp rdx, 49
     je  print_ret
 
 after_ret_print:
@@ -164,7 +164,6 @@ init_val:
     mov rax, rbx
     mov r8, 50
     div r8
-
     ; if( rbx % 50 == 0 )
     cmp rdx, 0
     je  zero_func
@@ -172,7 +171,6 @@ init_val:
     mov rax, rbx
     mov r8, 50
     div r8
-
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
     je  zero_func
