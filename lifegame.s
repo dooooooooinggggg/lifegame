@@ -87,7 +87,7 @@ gen_rand:
 
 
 
-    mov r11, byte [init_val_array + rbx]
+    movzx r11, byte [init_val_array + rbx]
     mov [prev_val + rbx], r11
 
 
