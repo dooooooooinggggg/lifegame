@@ -269,10 +269,10 @@ jmp print_func
 after_first_print:
 jmp consider_next_gen
 
-
 consider_next_gen:
-
     xor rbx, rbx
+
+consider_next_each_gen:
     cmp rbx, 2500
     jge after_consider_next_gen
 
@@ -339,14 +339,9 @@ consider_next_gen:
         cmp r13, 0
         je consider_next_gen_when_die
 
-done_this_next_num:
-    inc rbx
-jmp reset_rbx
-
-
-reset_rbx:
-    ; xor rbx, rbx
-jmp after_consider_next_gen
+    done_this_next_num:
+        inc rbx
+    jmp consider_next_each_gen
 
 after_consider_next_gen:
     ; ここから、古いものを新しいものにコピーして行く。
