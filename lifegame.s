@@ -11,16 +11,16 @@
 
 ; システムコール番号はrax、引数はrdi, rsi, rdx, r10, r8, r9の順で与える
 ; rax以外にrcx, r11も書き換えられる可能性がある
-; rbx カウンター 邪魔しちゃダメ。
+; rbx iとjのカウンター 邪魔しちゃダメ。
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
 ; r10
 ; r11
-; r12
-; r13
-; r14
-; r15 print系において、配列の値を入れておくもの
+; r12 世代の情報を入れたい。
+; r13 new_gen付近にてprev_valの、そのセルの情報を入れる。コピー段階では、next世代の情報を入れる。
+; r14 周りの生きているセルの個数を入れる。
+; r15 print系において、配列の値を入れておくもの。新しい世代の生成の際には、周りのセルの01を一時的に入れておくもの。
 
 ; divは、商がrax、余りがrdxに入る。
 
@@ -89,29 +89,29 @@ print_each:
     cmp rbx, 2500
     jge return_from_print
 
-    ; if( rbx <= 49 )
-    cmp rbx, 49
-    jle after_each_print
+        ; if( rbx <= 49 )
+        cmp rbx, 49
+        jle after_each_print
 
-    ; if( rbx >= 2450 )
-    cmp rbx, 2450
-    jge after_each_print
+        ; if( rbx >= 2450 )
+        cmp rbx, 2450
+        jge after_each_print
 
-    mov rax, rbx
-    mov r8, 50
-    div r8
+        mov rax, rbx
+        mov r8, 50
+        div r8
 
-    ; if( rbx % 50 == 0 )
-    cmp rdx, 0
-    je  after_each_print
+        ; if( rbx % 50 == 0 )
+        cmp rdx, 0
+        je  after_each_print
 
-    mov rax, rbx
-    mov r8, 50
-    div r8
+        mov rax, rbx
+        mov r8, 50
+        div r8
 
-    ; if( rbx % 50 == 49 )
-    cmp rdx, 49
-    je  after_each_print
+        ; if( rbx % 50 == 49 )
+        cmp rdx, 49
+        je  after_each_print
 
 
 
@@ -126,7 +126,6 @@ print_each:
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
 
-    ; xor rax, rax
     mov rax, rbx
     mov r8, 50
     div r8
@@ -143,53 +142,57 @@ after_ret_print:
 return_from_print:
     jmp after_first_print
 
-
-
-
-
-
-
-
 zero_func:
     mov r9, 0
     mov [prev_val + rbx], r9
     jmp end_init_this_num
 
+
+
+
+
+
+
+
+
+
 _start:
+    xor r12, r12; 世代
     xor rbx, rbx
 init_val:
     cmp rbx, 2500
     jge after_init_val
 
-    ; rbxが、49以下の時
-    ; rbxが、2450以上の時
-    ; 0の壁を入れる
+        ; rbxが、49以下の時
+        ; rbxが、2450以上の時
+        ; 0の壁を入れる
 
-    ; if( rbx <= 49 )
-    cmp rbx, 49
-    jle zero_func
+        ; if( rbx <= 49 )
+        cmp rbx, 49
+        jle zero_func
 
-    ; if( rbx >= 2450 )
-    cmp rbx, 2450
-    jge zero_func
+        ; if( rbx >= 2450 )
+        cmp rbx, 2450
+        jge zero_func
 
-    mov rax, rbx
-    mov r8, 50
-    div r8
-    ; if( rbx % 50 == 0 )
-    cmp rdx, 0
-    je  zero_func
+        mov rax, rbx
+        mov r8, 50
+        div r8
+        ; if( rbx % 50 == 0 )
+        cmp rdx, 0
+        je  zero_func
 
-    mov rax, rbx
-    mov r8, 50
-    div r8
-    ; if( rbx % 50 == 49 )
-    cmp rdx, 49
-    je  zero_func
+        mov rax, rbx
+        mov r8, 50
+        div r8
+        ; if( rbx % 50 == 49 )
+        cmp rdx, 49
+        je  zero_func
 
-    ; ここを本当はランダムにしなければならない
-    mov r9, 1
-    mov [prev_val + rbx], r9
+        ; ここを本当はランダムにしなければならない
+        mov r9, 1
+        mov [prev_val + rbx], r9
+
     jmp end_init_this_num
 
 end_init_this_num:
@@ -197,43 +200,168 @@ end_init_this_num:
     jmp init_val
 
 after_init_val:
-    nop
+    ; nop
     jmp print_func
 
 after_first_print:
-    nop
+    jmp consider_next_gen
 
 
+consider_next_gen:
+
+    xor rbx, rbx
+    cmp rbx, 2500
+    jge after_consider_next_gen
+
+        ; if( rbx <= 49 )
+        cmp rbx, 49
+        jle next_zero_func
+
+        ; if( rbx >= 2450 )
+        cmp rbx, 2450
+        jge next_zero_func
+
+        mov rax, rbx
+        mov r8, 50
+        div r8
+        ; if( rbx % 50 == 0 )
+        cmp rdx, 0
+        je  next_zero_func
+
+        mov rax, rbx
+        mov r8, 50
+        div r8
+        ; if( rbx % 50 == 49 )
+        cmp rdx, 49
+        je  next_zero_func
+
+        ; ここからが、周りの個数を調べる。
+        xor r14, r14
+        ; 1
+        movzx r15, byte [prev_val + rbx - 51]
+        add r14, r15
+        ; 2
+        movzx r15, byte [prev_val + rbx - 50]
+        add r14, r15
+        ; 3
+        movzx r15, byte [prev_val + rbx - 49]
+        add r14, r15
+        ; 4
+        movzx r15, byte [prev_val + rbx - 1]
+        add r14, r15
+        ; 6
+        movzx r15, byte [prev_val + rbx + 1]
+        add r14, r15
+        ; 7
+        movzx r15, byte [prev_val + rbx + 49]
+        add r14, r15
+        ; 8
+        movzx r15, byte [prev_val + rbx + 50]
+        add r14, r15
+        ; 9
+        movzx r15, byte [prev_val + rbx + 51]
+        add r14, r15
+
+        xor r13, r13
+        movzx r13, byte [prev_val + rbx]
 
 
+        ; 生きていた場合
+        cmp r13, 1
+        je consider_next_gen_when_alive
+
+        ; 死んでいた場合
+        cmp r13, 0
+        je consider_next_gen_when_die
+
+done_this_next_num:
+    inc rbx
+    jmp reset_rbx
 
 
+reset_rbx:
+    xor rbx, rbx
+    jmp after_consider_next_gen
+after_consider_next_gen:
+    ; ここから、古いものを新しいものにコピーして行く。
+    ; 新しいものを古いものをコピーしたら、次のサイクルへ。
 
+    cmp rbx, 2500
+    jge done_this_loop_lets_go_next_loop
 
+        mov r13, byte [next_val + rbx]
+        mov [prev_val + rbx], r13
+        inc rbx
+        jmp after_consider_next_gen
 
+done_this_loop_lets_go_next_loop:
+    ; ここで最後終わる判定書けばいいか。
 
+    inc r12
+    cmp r12, 1000
+    jge exit
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    jmp print_func
 
 exit:
     ; exit(0)
     mov rax, 60
     mov rdi, 0
     syscall
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+consider_next_gen_when_alive:
+    cmp r14, 2
+    je dicide_live
+
+    cmp rr14, 3
+    je dicide_live
+
+    jmp dicide_die
+
+consider_next_gen_when_die:
+    cmp r14, 3
+    je dicide_live
+
+    jmp dicide_die
+
+dicide_live:
+    mov r9, 1
+    mov [prev_val + rbx], r9
+    jmp done_this_next_num
+
+dicide_die:
+    mov r9, 0
+    mov [prev_val + rbx], r9
+    jmp done_this_next_num
+
+; 次の世代の、壁を作る仕事。
+next_zero_func:
+    mov r9, 0
+    mov [next_val + rbx], r9
+    jmp done_this_next_num
+
+
+
+
+
+
 
 
 

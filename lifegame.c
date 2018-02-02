@@ -105,8 +105,8 @@ int main(){
     for( int i = 0; i <= LIFE_SPAN; i++ ){
         sleep(1);
         printf("第%d世代\n", i );
+        print_func(prev_val);
         generational_change(prev_val, next_val);
-        print_func(next_val);
         cp_prev_to_next(prev_val, next_val);
     }
 
