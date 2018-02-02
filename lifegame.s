@@ -85,23 +85,12 @@ gen_rand:
     ; cmp rdx, 0
     ; je next_val_is_off
 
-
-
     movzx r9, byte [init_val_array + rbx]
     ; mov [prev_val + rbx], r11
 
 
 return_to_done_gen_rand:
     jmp done_gen_rand
-
-
-
-
-
-
-
-
-
 
 print_off:
     ; write
