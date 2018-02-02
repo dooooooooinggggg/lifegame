@@ -60,12 +60,16 @@ gen_rand:
     ; r9に入れさえすればいい。
     mov r11, 342743218 ; seed
     mov rax, r11
-    mul r11
+    mul r11 ; r11 ^ 2の結果をrax:rdxに代入。raxの方がランダムになりそうなのでこっち使う。
+
+    nop
 
     ; raxの値をr11に入れたのち、
     ; これが偶数か奇数かを判定
     mov r11, rax
     ; mov rax, r11
+
+    nop
 
     mov r8, 2
     xor rdx, rdx
