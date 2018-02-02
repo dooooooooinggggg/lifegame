@@ -305,7 +305,7 @@ done_this_loop_lets_go_next_loop:
     mov rax, 35
     mov rdi, 1
     mov rsi, 0
-    mov rdx, 1
+    ; mov rdx, 1
     syscall
 
     jmp after_each_print
