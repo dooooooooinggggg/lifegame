@@ -87,12 +87,20 @@ gen_rand:
 
 
 
-    movzx r11, byte [init_val_array + rbx]
-    mov [prev_val + rbx], r11
+    movzx r9, byte [init_val_array + rbx]
+    ; mov [prev_val + rbx], r11
 
 
 return_to_done_gen_rand:
     jmp done_gen_rand
+
+
+
+
+
+
+
+
 
 
 print_off:
@@ -189,6 +197,12 @@ after_each_print:
 after_ret_print:
     inc rbx
 jmp print_each
+
+
+
+
+
+
 
 
 return_from_print:
@@ -352,12 +366,6 @@ done_this_loop_lets_go_next_loop:
     inc r12
     cmp r12, 1000
     jge exit
-
-    ; ; sleep
-    ; mov rax, 35
-    ; mov rdi, 1
-    ; mov rsi, 0
-    ; syscall
 
     xor r11, r11
 sleep:
