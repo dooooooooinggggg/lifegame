@@ -99,6 +99,7 @@ print_each:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
 
         ; if( rbx % 50 == 0 )
@@ -107,6 +108,7 @@ print_each:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
 
         ; if( rbx % 50 == 49 )
@@ -128,6 +130,7 @@ after_each_print:
 
     mov rax, rbx
     mov r8, 50
+    xor rdx, rdx
     div r8
 
     ; if( rbx % 50 == 49 )
@@ -177,6 +180,7 @@ init_val:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
         ; if( rbx % 50 == 0 )
         cmp rdx, 0
@@ -184,6 +188,7 @@ init_val:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
         ; if( rbx % 50 == 49 )
         cmp rdx, 49
@@ -223,6 +228,7 @@ consider_next_gen:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
         ; if( rbx % 50 == 0 )
         cmp rdx, 0
@@ -230,6 +236,7 @@ consider_next_gen:
 
         mov rax, rbx
         mov r8, 50
+        xor rdx, rdx
         div r8
         ; if( rbx % 50 == 49 )
         cmp rdx, 49
@@ -301,12 +308,11 @@ done_this_loop_lets_go_next_loop:
     cmp r12, 1000
     jge exit
 
-    ; sleep
-    mov rax, 35
-    mov rdi, 1
-    mov rsi, 0
-    ; mov rdx, 1
-    syscall
+    ; ; sleep
+    ; mov rax, 35
+    ; mov rdi, 1
+    ; mov rsi, 0
+    ; syscall
 
     jmp print_func
 
