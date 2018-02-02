@@ -15,7 +15,6 @@
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
-; ; r14 prev_valのアドレス
 ; r15 print系において、配列の値を入れておくもの
 
 
@@ -62,20 +61,21 @@ print_on:
     jmp after_each_print
     ; ret
 
+print_ret:
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, return
+    mov rdx, 1
+    syscall
+
+    jmp after_each_print
+
 print_func:
     ; 一回prev_valをprintする感じで。
     xor rbx, rbx
 print_each:
     cmp rbx, 2500
     jge return_from_print
-
-    ; if( rbx <= 49 )
-    cmp rbx, 49
-    jle after_each_print
-
-    ; if( rbx >= 2450 )
-    cmp rbx, 2450
-    jge after_each_print
 
     mov rax, rbx
     mov r8, 50
@@ -87,14 +87,20 @@ print_each:
 
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
-    je  after_each_print
+    je  print_ret
+
+    ; if( rbx <= 49 )
+    cmp rbx, 49
+    jle after_each_print
+
+    ; if( rbx >= 2450 )
+    cmp rbx, 2450
+    jge after_each_print
+
+
 
     xor r15, r15
-    ; lea r14, prev_val
-
-    nop
-    movzx r15, byte [prev_val + rbx]
-    nop
+    movzx r15, byte [prev_val + rbx] ; r15が64bitなので、ゼロ拡張
 
     cmp r15, 0
     je print_off
