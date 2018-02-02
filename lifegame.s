@@ -62,14 +62,15 @@ gen_rand:
 
     ; r9に入れさえすればいい。
     mov rax, r11
-    mul r11 ; r11 ^ 2の結果をrax:rdxに代入。なんとなくraxを使う。
-    sar rax, 1
+    mul r11 ; r11 ^ 2の結果をrax:rdxに代入。raxを使う。
+    mov r11, rax
+    sar r11, 1
 
     ; nop
 
     ; raxの値をr11に入れたのち、
     ; これが偶数か奇数かを判定
-    mov r11, rax
+    ; mov r11, rax
     ; mov rax, r11
 
     ; nop
@@ -229,8 +230,9 @@ init_val:
         cmp rdx, 49
         je  zero_func
 
-        ; ここを本当はランダムにしなければならない
-        xor rax, rax
+        ; ここまでcontinue
+
+        ; xor rax, rax
         jmp gen_rand
 done_gen_rand:
 
