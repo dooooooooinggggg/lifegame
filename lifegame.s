@@ -110,8 +110,8 @@ print_each:
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
 
-    ; if( rbx % 50 == 48 )
-    cmp rdx, 48
+    ; if( rbx % 50 == 49 )
+    cmp rdx, 49
     je  print_ret
 
 after_ret_print:
