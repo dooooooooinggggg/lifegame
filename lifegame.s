@@ -58,7 +58,7 @@ gen_rand:
     ; return y = y ^ (y << 5);
 
     ; r9に入れさえすればいい。
-    mov r11, 342743218 ; seed
+    mov r11, 342743459218 ; seed
     mov rax, r11
     mul r11 ; r11 ^ 2の結果をrax:rdxに代入。raxの方がランダムになりそうなのでこっち使う。
 
