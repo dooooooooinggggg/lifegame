@@ -17,6 +17,8 @@
 ; r9  初期値であるflagを入れておくもの。一時的
 ; r15 print系において、配列の値を入れておくもの
 
+; divは、商がrax、余りがrdxに入る。
+
 
 section .data
     on     db "0"
@@ -123,7 +125,6 @@ after_each_print:
     je  print_ret
 
 after_ret_print:
-
     inc rbx
     jmp print_each
 
