@@ -93,6 +93,10 @@ print_each:
     cmp rdx, 0
     je  after_each_print
 
+    mov rax, rbx
+    mov r8, 50
+    div r8
+
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
     je  after_each_print
@@ -164,6 +168,10 @@ init_val:
     ; if( rbx % 50 == 0 )
     cmp rdx, 0
     je  zero_func
+
+    mov rax, rbx
+    mov r8, 50
+    div r8
 
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
