@@ -100,7 +100,7 @@ print_each:
 
 
     xor r15, r15
-    movzx r15, byte [prev_val + rbx] ; r15が64bitなので、ゼロ拡張
+    movzx r15, byte [prev_val + rbx] ; r15が64bitなので、ゼロ拡張(prev_valは8bit)
 
     cmp r15, 0
     je print_off
@@ -109,6 +109,10 @@ print_each:
 
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
+
+    mov rax, rbx
+    mov r8, 50
+    div r8
 
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
@@ -168,7 +172,7 @@ init_val:
     ; ここを本当はランダムにしなければならない
     mov r9, 1
     mov [prev_val + rbx], r9
-    ; jmp end_init_this_num
+    jmp end_init_this_num
 
 end_init_this_num:
     inc rbx
