@@ -318,8 +318,8 @@ done_this_loop_lets_go_next_loop:
     ; mov rsi, 0
     ; syscall
 
-sleep:
     xor r11, r11
+sleep:
     cmp r11, 10000000
     jge next_loop
     inc r11
