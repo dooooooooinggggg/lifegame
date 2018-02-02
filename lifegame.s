@@ -68,7 +68,7 @@ print_ret:
     mov rdx, 1
     syscall
 
-    jmp after_each_print
+    jmp after_ret_print
 
 print_func:
     ; 一回prev_valをprintする感じで。
@@ -95,7 +95,7 @@ print_each:
 
     ; if( rbx % 50 == 49 )
     cmp rdx, 49
-    je  print_ret
+    je  after_each_print
 
 
 
@@ -109,6 +109,13 @@ print_each:
 
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
+
+    ; if( rbx % 50 == 48 )
+    cmp rdx, 48
+    je  print_ret
+
+after_ret_print:
+
     inc rbx
     jmp print_each
 
