@@ -15,6 +15,11 @@
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
+; r10
+; r11
+; r12
+; r13
+; r14
 ; r15 print系において、配列の値を入れておくもの
 
 ; divは、商がrax、余りがrdxに入る。
@@ -64,11 +69,16 @@ print_on:
     ; ret
 
 print_ret:
+
+    nop
+
     mov rax, 1
     mov rdi, 1
     mov rsi, return
     mov rdx, 1
     syscall
+
+    nop
 
     jmp after_ret_print
 
