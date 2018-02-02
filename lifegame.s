@@ -345,7 +345,7 @@ jmp reset_rbx
 
 
 reset_rbx:
-    xor rbx, rbx
+    ; xor rbx, rbx
 jmp after_consider_next_gen
 
 after_consider_next_gen:
