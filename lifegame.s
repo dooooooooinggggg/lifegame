@@ -114,8 +114,8 @@ after_each_print:
     mov r8, 50
     div r8
 
-    ; if( rbx % 50 == 49 )
-    cmp rdx, 49
+    ; if( rbx % 50 == 48 )
+    cmp rdx, 48
     je  print_ret
 
 after_ret_print:
