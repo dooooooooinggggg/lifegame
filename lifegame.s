@@ -116,6 +116,7 @@ print_each:
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
 
+    xor rax, rax
     mov rax, rbx
     mov r8, 50
     div r8
