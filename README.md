@@ -4,3 +4,5 @@
 gcc -o lifegame lifegame.c
 ./lifegame
 ```
+
+

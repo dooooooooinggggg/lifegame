@@ -195,6 +195,7 @@ init_val:
         je  zero_func
 
         ; ここを本当はランダムにしなければならない
+        nop
         mov r9, 1
         mov [prev_val + rbx], r9
 
