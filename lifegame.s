@@ -16,7 +16,7 @@
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
 ; r10
-; r11
+; r11 sleep用。
 ; r12 世代の情報を入れたい。
 ; r13 new_gen付近にてprev_valの、そのセルの情報を入れる。コピー段階では、next世代の情報を入れる。
 ; r14 周りの生きているセルの個数を入れる。
@@ -42,8 +42,10 @@ section .text
     global _start
 
 
-
-
+gen_rand:
+    ; r9に入れさえすればいい。
+    mov r9, 1
+    jmp done_gen_rand
 
 
 print_off:
@@ -195,8 +197,9 @@ init_val:
         je  zero_func
 
         ; ここを本当はランダムにしなければならない
-        nop
-        mov r9, 1
+        ; nop
+        jmp gen_rand
+done_gen_rand:
         mov [prev_val + rbx], r9
 
     jmp end_init_this_num
@@ -314,6 +317,12 @@ done_this_loop_lets_go_next_loop:
     ; mov rdi, 1
     ; mov rsi, 0
     ; syscall
+
+sleep:
+    xor r11, r11
+    cmp r11, 1000000000
+    inc r11
+    jle sleep
 
     jmp print_func
 
