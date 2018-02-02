@@ -347,13 +347,15 @@ after_consider_next_gen:
     ; ここから、古いものを新しいものにコピーして行く。
     ; 新しいものを古いものをコピーしたら、次のサイクルへ。
 
+    xor rbx, rbx
+each_cp:
     cmp rbx, 2500
     jge done_this_loop_lets_go_next_loop
 
         movzx r13, byte [next_val + rbx]
         mov [prev_val + rbx], r13
         inc rbx
-    jmp after_consider_next_gen
+    jmp each_cp
 
 done_this_loop_lets_go_next_loop:
     ; ここで最後終わる判定書けばいいか。
