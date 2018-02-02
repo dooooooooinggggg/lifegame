@@ -89,29 +89,29 @@ print_each:
     cmp rbx, 2500
     jge return_from_print
 
-    ; ; if( rbx <= 49 )
-    ; cmp rbx, 49
-    ; jle after_each_print
+    ; if( rbx <= 49 )
+    cmp rbx, 49
+    jle after_each_print
 
-    ; ; if( rbx >= 2450 )
-    ; cmp rbx, 2450
-    ; jge after_each_print
+    ; if( rbx >= 2450 )
+    cmp rbx, 2450
+    jge after_each_print
 
-    ; mov rax, rbx
-    ; mov r8, 50
-    ; div r8
+    mov rax, rbx
+    mov r8, 50
+    div r8
 
-    ; ; if( rbx % 50 == 0 )
-    ; cmp rdx, 0
-    ; je  after_each_print
+    ; if( rbx % 50 == 0 )
+    cmp rdx, 0
+    je  after_each_print
 
-    ; mov rax, rbx
-    ; mov r8, 50
-    ; div r8
+    mov rax, rbx
+    mov r8, 50
+    div r8
 
-    ; ; if( rbx % 50 == 49 )
-    ; cmp rdx, 49
-    ; je  after_each_print
+    ; if( rbx % 50 == 49 )
+    cmp rdx, 49
+    je  after_each_print
 
 
 
@@ -126,7 +126,7 @@ print_each:
 ; print系のcontinueと、次のループへはここ。
 after_each_print:
 
-    xor rax, rax
+    ; xor rax, rax
     mov rax, rbx
     mov r8, 50
     div r8
