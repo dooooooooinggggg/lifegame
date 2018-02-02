@@ -320,8 +320,10 @@ done_this_loop_lets_go_next_loop:
 
     xor r11, r11
 sleep:
-    cmp r11, 5000000000
+    cmp r11, 2000000000
     jge next_loop
+    nop
+    nop
     inc r11
     jmp sleep
 
