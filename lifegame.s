@@ -308,9 +308,6 @@ done_this_loop_lets_go_next_loop:
     ; mov rdx, 1
     syscall
 
-    jmp after_each_print
-    ; ret
-
     jmp print_func
 
 exit:
