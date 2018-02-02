@@ -32,6 +32,7 @@ section .data
     off    db 0x2d; <- "-"
     err    db "e"
     return db 0x0a
+    ; init_val db
 
 
 section .bss
@@ -62,24 +63,24 @@ gen_rand:
     mul r11 ; r11 ^ 2の結果をrax:rdxに代入。なんとなくraxを使う。
     sar rax, 1
 
-    nop
+    ; nop
 
     ; raxの値をr11に入れたのち、
     ; これが偶数か奇数かを判定
     mov r11, rax
     ; mov rax, r11
 
-    nop
+    ; nop
 
     mov r8, 2
     xor rdx, rdx
-    div r8
-    cmp rdx, 1
+    div r8; b
+
+    cmp rdx, 1; b
     je next_val_is_on
 
     cmp rdx, 0
     je next_val_is_off
-
 return_to_done_gen_rand:
     jmp done_gen_rand
 
@@ -227,6 +228,7 @@ init_val:
         je  zero_func
 
         ; ここを本当はランダムにしなければならない
+        xor rax, rax
         jmp gen_rand
 done_gen_rand:
 
