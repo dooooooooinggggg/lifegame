@@ -15,7 +15,7 @@
 ; rdx あまりが入る
 ; r8  除数を入れておくためのもの。一時的
 ; r9  初期値であるflagを入れておくもの。一時的
-; r14 prev_valのアドレス
+; ; r14 prev_valのアドレス
 ; r15 print系において、配列の値を入れておくもの
 
 
@@ -90,10 +90,12 @@ print_each:
     je  after_each_print
 
     xor r15, r15
-    lea r14, prev_val
+    ; lea r14, prev_val
+
     nop
-    mov r15, byte ptr [r14 + rbx]
+    movzx r15, byte [prev_val + rbx]
     nop
+
     cmp r15, 0
     je print_off
     cmp r15, 1
