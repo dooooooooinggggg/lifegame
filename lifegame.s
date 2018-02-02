@@ -289,7 +289,7 @@ after_consider_next_gen:
     cmp rbx, 2500
     jge done_this_loop_lets_go_next_loop
 
-        mov r13, byte [next_val + rbx]
+        movzx r13, byte [next_val + rbx]
         mov [prev_val + rbx], r13
         inc rbx
         jmp after_consider_next_gen
@@ -330,7 +330,7 @@ consider_next_gen_when_alive:
     cmp r14, 2
     je dicide_live
 
-    cmp rr14, 3
+    cmp r14, 3
     je dicide_live
 
     jmp dicide_die
